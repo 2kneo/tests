@@ -1,21 +1,21 @@
 var gulp = require('gulp'),
-    sass = require('gulp-sass'),
-    webserver = require('browser-sync'),
-    del = require('del'),
-    cache = require('gulp-cache'),
-    imagemin = require('gulp-imagemin'),
-    rigger = require('gulp-rigger'),
-    jpegrecompress = require('imagemin-jpeg-recompress'),
-    notify = require('gulp-notify'),
-    pngquant = require('pngquant'),
-    sourcemaps = require('gulp-sourcemaps'),
-    sequence = require('gulp-sequence'),
-    importCss = require('gulp-import-css'),
-    babel = require('gulp-babel'),
-    pxToRem = require('gulp-pxtorem'),
-    cssNano = require('gulp-cssnano'),
-    rename = require('gulp-rename'),
-    terser = require('gulp-terser');
+  sass = require('gulp-sass'),
+  webserver = require('browser-sync'),
+  del = require('del'),
+  cache = require('gulp-cache'),
+  imagemin = require('gulp-imagemin'),
+  rigger = require('gulp-rigger'),
+  jpegrecompress = require('imagemin-jpeg-recompress'),
+  notify = require('gulp-notify'),
+  pngquant = require('pngquant'),
+  sourcemaps = require('gulp-sourcemaps'),
+  sequence = require('gulp-sequence'),
+  importCss = require('gulp-import-css'),
+  babel = require('gulp-babel'),
+  pxToRem = require('gulp-pxtorem'),
+  cssNano = require('gulp-cssnano'),
+  rename = require('gulp-rename'),
+  terser = require('gulp-terser');
 
 var path = {
   build: {
@@ -28,7 +28,7 @@ var path = {
   src: {
     html:      'app/*.html',
     js:        'app/js/*.js',
-    json:      'app/js/*.json',
+    libsJs:    'app/libs/include.js',
     css:       'app/css/main.scss',
     libsCss:   'app/libs/include.css',
     sass:      'app/sass/*.scss',
@@ -38,7 +38,7 @@ var path = {
   watch: {
     html:      'app/**/*.html',
     js:        'app/js/*.js',
-    json:      'app/js/*.json',
+    libsJs:    'app/libs/include.js',
     css:       'app/sass/*.scss',
     libsCss:   'app/libs/include.css',
     img:       'app/images/**/*.*',
@@ -120,9 +120,9 @@ gulp.task('css:build',function(){
   return gulp.src(path.src.sass)
     .pipe(sourcemaps.init())
     .pipe(sass().on('error', notify.onError({
-    message: "<%= error.message %>",
-    title  : "Sass Error!"
-  })))
+      message: "<%= error.message %>",
+      title  : "Sass Error!"
+    })))
     .pipe(pxToRem(variablesPxToRem))
     .pipe(cssNano())
     .pipe(sourcemaps.write('.'))
@@ -140,6 +140,17 @@ gulp.task('PxToRem', function() {
     .pipe(gulp.dest(path.build.css));
 });
 
+gulp.task('libs-script:build', function(){
+  return gulp.src(path.src.libsJs)
+    .pipe(sourcemaps.init())
+    .pipe(rigger())
+    .pipe(babel())
+    .pipe(terser())
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest(path.build.js))
+    .pipe(webserver.reload({stream: true}))
+});
+
 gulp.task('js:build', function () {
   return gulp.src(path.src.js)
     .pipe(sourcemaps.init())
@@ -155,24 +166,18 @@ gulp.task('fonts:build', function() {
     .pipe(gulp.dest(path.build.fonts));
 });
 
-gulp.task('json:build', function() {
-  gulp.src(path.src.json)
-    .pipe(gulp.dest(path.build.js));
-});
-
-
 gulp.task('image:build', function () {
   gulp.src(path.src.img)
     .pipe(cache(imagemin([
-    imagemin.gifsicle({interlaced: true}),
-    jpegrecompress({
-      progressive: true,
-      max: 90,
-      min: 80
-    }),
-    pngquant(),
-    imagemin.svgo({plugins: [{removeViewBox: false}]})
-  ])))
+      imagemin.gifsicle({interlaced: true}),
+      jpegrecompress({
+        progressive: true,
+        max: 90,
+        min: 80
+      }),
+      pngquant(),
+      imagemin.svgo({plugins: [{removeViewBox: false}]})
+    ])))
     .pipe(gulp.dest(path.build.img));
 });
 
@@ -188,7 +193,7 @@ gulp.task('build', [
   'clean:build',
   'html:build',
   'js:build',
-  'json:build',
+  'libs-script:build',
   'libs:build',
   'css:build',
   'fonts:build',
@@ -199,7 +204,7 @@ gulp.task('watch', function() {
   gulp.watch(path.watch.html, ['html:build']);
   gulp.watch(path.watch.html, ['libs:build']);
   gulp.watch(path.watch.js, ['js:build']);
-  gulp.watch(path.watch.js, ['json:build']);
+  gulp.watch(path.watch.js, ['libs-script:build']);
   gulp.watch(path.watch.css, ['css:build']);
   gulp.watch(path.watch.img, ['image:build']);
   gulp.watch(path.watch.fonts, ['fonts:build']);
