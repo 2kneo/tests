@@ -22,6 +22,7 @@ var path = {
     html:      'build/',
     js:        'build/js/',
     css:       'build/css/',
+    bootstrap: 'app/libs/bootstrap',
     img:       'build/images/',
     fonts:     'build/webfonts/',
   },
@@ -30,6 +31,7 @@ var path = {
     js:        'app/js/*.js',
     libsJs:    'app/libs/include.js',
     css:       'app/css/main.scss',
+    bootstrap: 'app/libs/bootstrap/bootstrap.scss',
     libsCss:   'app/libs/include.css',
     sass:      'app/sass/*.scss',
     img:       'app/images/**/*.*',
@@ -40,6 +42,7 @@ var path = {
     js:        'app/js/*.js',
     libsJs:    'app/libs/include.js',
     css:       'app/sass/*.scss',
+    bootstrap: 'app/libs/bootstrap/*.scss',
     libsCss:   'app/libs/include.css',
     img:       'app/images/**/*.*',
     fonts:     'app/webfonts/**/*.*',
@@ -114,6 +117,18 @@ gulp.task('libs:build', function(){
     .pipe(cssNano())
     .pipe(gulp.dest(path.build.css))
     .pipe(webserver.reload({stream: true}));
+});
+
+gulp.task('bootstrap:build', function () {
+  return gulp.src(path.src.bootstrap)
+    .pipe(sourcemaps.init())
+    .pipe(sass().on('error', notify.onError({
+      message: "<%= error.message %>",
+      title  : "Sass Error!"
+    })))
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest(path.build.css))
+    .pipe(webserver.reload({stream: true})); // перезагрузим сервер
 });
 
 gulp.task('css:build',function(){
@@ -196,6 +211,7 @@ gulp.task('build', [
   'libs-script:build',
   'libs:build',
   'css:build',
+  'bootstrap:build',
   'fonts:build',
   'image:build',
 ]);
@@ -206,6 +222,7 @@ gulp.task('watch', function() {
   gulp.watch(path.watch.js, ['js:build']);
   gulp.watch(path.watch.js, ['libs-script:build']);
   gulp.watch(path.watch.css, ['css:build']);
+  gulp.watch(path.watch.bootstrap, ['bootstrap:build']);
   gulp.watch(path.watch.img, ['image:build']);
   gulp.watch(path.watch.fonts, ['fonts:build']);
   gulp.watch(path.watch.libs, ['libs:build']);
