@@ -1,0 +1,54 @@
+@mixin border-r($radius) {
+  border-radius: $radius;
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+}
+@mixin box-s($box-s) {
+  box-shadow: $box-s;
+  -moz-box-shadow: $box-s;
+  -webkit-box-shadow: $box-s;
+}
+@mixin txt-s($txt-s) {
+  text-shadow: $txt-s;
+  -moz-text-shadow: $txt-s;
+  -webkit-text-shadow: $txt-s;
+}
+@mixin placeholder {
+  &::-webkit-input-placeholder { @content; }
+  &:-moz-placeholder           { @content; }
+  &::-moz-placeholder          { @content; }
+  &:-ms-input-placeholder      { @content; }  
+}
+@mixin shine {
+  & {
+    position: relative;
+    overflow: hidden;
+    &:hover {
+      opacity: 1;
+    }
+  }
+  &:hover:after {
+    animation: sheen 1s forwards;
+  }
+  &:after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    bottom: -50%;
+    left: -50%;
+    background: linear-gradient(to bottom, rgba(229, 172, 142, 0), rgba(255,255,255,0.5) 50%, rgba(229, 172, 142, 0));
+    transform: rotateZ(60deg) translate(-5em, 7.5em);
+  }
+  @keyframes sheen {
+    100% {
+      transform: rotateZ(60deg) translate(1em, -9em);
+    }
+  }
+}
+@mixin text-size {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+

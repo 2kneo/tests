@@ -1,0 +1,346 @@
+@mixin info-span {
+  position: absolute;
+  display: inline-block;
+  width: 41px;
+  height: 41px;
+  top: 50%;
+  left: 0;
+  text-align: center;
+  line-height: 41px;
+  background-color: #00abf0;
+  cursor: pointer;
+  transform: translateY(-50%);
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.header {
+  padding: 7px 0;
+  background-color: #1a1a1a;
+  .logo {
+    float: left;
+    width: 100%;
+    height: 19px;
+    background-image: url("../images/logo.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: left center;
+  }
+  .shopping-card {
+    position: relative;
+    display: inline-block;
+    i {
+      color: #737373;
+    }
+    span {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      top: 0;
+      right: -5px;
+      color: #fff;
+      font-size: 8px;
+      text-align: center;
+      line-height: 10px;
+      background-color: #00b4fc;
+      border-radius: 50%;
+    }
+  }
+  .change-menu {
+    display: inline-block;
+    color: #737373;
+    margin: 0 0 0 20px;
+  }
+  .shopping-card,
+  .change-menu {
+    cursor: pointer;
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+  .mobile-price {
+    width: 100%;
+    color: #fff;
+    text-align: center;
+    p {
+      margin: 0;
+      font-size: 14px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  .mobile-class {
+    color: #fff;
+    line-height: 15px;
+    p {
+      color: #00b6ff;
+      font-size: 12px;
+    }
+    p,
+    h6 {
+      margin: 0;
+    }
+  }
+  .info-mobile {
+    position: relative;
+    padding: 10px 0;
+    color: #fff;
+    text-align: center;
+    p {
+      margin: 0;
+      padding: 0 50px;
+    }
+    .info {
+      @include info-span;
+    }
+    .close {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      color: #fff;
+      transform: translateY(-50%);
+    }
+  }
+}
+
+.wrapper {
+  .container {
+    position: relative;
+    overflow: hidden;
+  }
+}
+
+.menu,
+.menu-addition-footer {
+  position: absolute;
+  width: 300px;
+  height: 100%;
+  right: 0;
+  top: 0;
+  font-size: 12px;
+  text-align: center;
+  background-color: #212121;
+  z-index: 99;
+  transition: 0.4s;
+  transform: translateX(+150%);
+  &.menu-active {
+    transform: translateX(0%);
+    padding: 0;
+  }
+  ul {
+    margin: 0;
+    li {
+      line-height: 25px;
+      list-style-type: none;
+      &:hover,
+      &.active {
+        a {
+          color: #fff;
+          opacity: 1;
+          text-decoration: none;
+          background-color: #00b6ff;
+        }
+      }
+      a {
+        display: inline-block;
+        width: 100%;
+        padding: 10px;
+        color: #fff;
+        border-top: 1px solid #292929;
+      }
+    }
+  }
+}
+
+.info-text {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  padding: 20px;
+  font-size: 12px;
+  background-color: #fff;
+  z-index: 95;
+  p:last-child {
+    margin: 0;
+  }
+  .back {
+    margin: 0 0 10px;
+    cursor: pointer;
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+}
+
+.wrapper-light {
+  .border-left {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  .list-light {
+    .card {
+      position: relative;
+      border-radius: 0;
+      border: none;
+      cursor: pointer;
+      &:hover {
+        opacity: 0.7;
+      }
+      img {
+        height: 100%;
+        border-radius: 0;
+      }
+      .card-body {
+        position: absolute;
+        width: 100%;
+        padding: 5px;
+        bottom: 0;
+        left: 0;
+        color: #fff;
+        font-size: 12px;
+        text-align: center;
+        background-color: #999;
+      }
+      &.active {
+        &:before {
+          position: absolute;
+          content: "";
+          width: 10px;
+          height: 10px;
+          top: 5px;
+          right: 5px;
+          background-image: url("../images/check.jpg");
+        }
+      }
+    }
+  }
+
+  .info {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    margin: 25px 0;
+    padding: 12px;
+    font-size: 12px;
+    color: #fff;
+    text-align: center;
+    background-color: #00b6ff;
+    p {
+      margin: 0;
+      padding: 0 50px;
+    }
+    span {
+      @include info-span;
+    }
+  }
+  .slider {
+    padding: 20px 0;
+  }
+  .mobil-light {
+    display: none;
+    .slider-1 {
+      display: block;
+    }
+  }
+  .change-light {
+    display: none;
+    margin: 10px 0 0;
+    padding: 5px;
+    text-align: center;
+    border: 1px solid #ccc;
+  }
+}
+
+.light-value {
+  display: block;
+  padding: 0 20px;
+  font-size: 13px;
+  td,
+  th {
+    width: 50%;
+    padding-bottom: 15px;
+    vertical-align: top;
+  }
+  .class-item {
+    padding: 5px;
+    background-color: #dfdfdf;
+    box-shadow: 0 0 10px #ccc;
+    border-radius: 3px;
+  }
+}
+
+.footer-menu {
+  display: inline-block;
+  width: 100%;
+  ul {
+    display: flex;
+    margin: 0;
+    text-align: center;
+    li {
+      display: inline-block;
+      list-style-type: none;
+      flex-basis: auto;
+      flex-grow: 1;
+      border: 1px solid #efefef;
+      &:hover,
+      &.active {
+        a {
+          justify-content: center;
+          text-decoration: none;
+          color: #fff;
+          opacity: 1;
+          background-color: #00b6ff;
+        }
+      }
+      a {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        text-align: center;
+        height: 100%;
+        padding: 15px;
+        color: #000;
+        font-size: 14px;
+        line-height: 15px;
+        border-bottom: 3px solid #00b6ff;
+        background-color: #f8f8f8;
+      }
+    }
+  }
+}
+
+.mobile-footer-menu {
+  display: none;
+  position: relative;
+  padding: 5px 0;
+  color: #fff;
+  background-color: #1a1a1a;
+  .mf-menu {
+    padding: 0 50px;
+    text-align: center;
+    cursor: pointer;
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+  .prev,
+  .next {
+    position: absolute;
+    top: 50%;
+    cursor: pointer;
+    transform: translateY(-50%);
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+  .prev {
+    left: 10px;
+  }
+  .next {
+    right: 10px;
+  }
+}
